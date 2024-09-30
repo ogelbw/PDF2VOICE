@@ -54,6 +54,7 @@ def pdf_to_text(pdf_path:str, pages:str = "all"):
             p1, p2 = pages.split("-")
             p1 = int(p1) - 1
             p2 = int(p2)
+            pages = range(p1, p2)
         else:
             try:
                 p1 = int(pages) - 1
