@@ -7,7 +7,7 @@ The tts module `doesn't` work on newer version of python, This project has been 
 
 First clone this project:
 ```bash
-git clone <url from clone button>
+git clone https://github.com/ogelbw/PDF2VOICE.git
 ```
 
 >I recommend using a virtual environment for this project, you can create one with the following:
