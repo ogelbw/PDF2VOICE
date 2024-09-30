@@ -1,0 +1,9 @@
+venv
+hidden
+*.so.*
+*.pdf
+*.txt
+checkpoints_v2
+*.pyc
+processed
+*.wav

@@ -1,0 +1,56 @@
+{
+    "voice": {
+        "value": "neuro",
+        "type": "str",
+        "help": "The voice to be cloned. located in the voices folder."
+    },
+    "voice_speed": {
+        "value": "0.8",
+        "type": "float",
+        "help": "The speed of the voice."
+    },
+    "voice_directory": {
+        "value": "./voices",
+        "type": "str",
+        "help": "The directory where the voices are stored."
+    },
+    "OV_SPEAKER_ID": {
+        "value": "EN-Newest",
+        "type": "str",
+        "help": "The speaker id used to generate the intermediate voice. (don't recommend changing)"
+    },
+    "output": {
+        "value": "./output",
+        "type": "str",
+        "help": "The output path to save the generated wav. (if dir the name of the wav will be based on the input)"
+    },
+    "device": {
+        "value": "cuda:0",
+        "type": "str",
+        "help": "The device that torch will use to generate the audio. (auto, cuda, cpu)"
+    },
+    "input": {
+        "type": "str",
+        "help": "The input path to the pdf file to be converted to speech."
+    },
+    "ckpt_path": {
+        "value": "./checkpoints_v2/",
+        "type": "str",
+        "help": "The path to the checkpoints from myshell."
+    },
+    "keep_intermediate": {
+        "value": false,
+        "type": "bool",
+        "help": "If true, the intermediate files will be kept."
+    },
+    "pages": {
+        "value": "all",
+        "type": "str",
+        "help": "The pages to be converted. (all, 1-3, 1,2,3)"
+    },
+    "chunk_size": {
+        "value": 100,
+        "type": "int",
+        "help": "Splits the voice generation every x words. This is used to avoid running out of vram/ram."
+    }
+}
