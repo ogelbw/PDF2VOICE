@@ -1,11 +1,11 @@
 {
     "voice": {
-        "value": "neuro",
+        "value": "ux",
         "type": "str",
         "help": "The voice to be cloned. located in the voices folder."
     },
     "voice_speed": {
-        "value": "0.8",
+        "value": "1",
         "type": "float",
         "help": "The speed of the voice."
     },
@@ -14,10 +14,20 @@
         "type": "str",
         "help": "The directory where the voices are stored."
     },
-    "OV_SPEAKER_ID": {
-        "value": "EN-Newest",
+    "OV_SPEAKER": {
+        "value": "EN-BR",
         "type": "str",
-        "help": "The speaker id used to generate the intermediate voice. (don't recommend changing)"
+        "help": "The locale used to generate the intermediate voice. (don't recommend changing), options: see error"
+    },
+    "Melo_Language": {
+        "value": "EN",
+        "type": "str",
+        "help": "The locale used to generate the intermediate voice. (don't recommend changing), options: see error"
+    },
+    "OV_MODEL": {
+        "value": "en-br",
+        "type": "str",
+        "help": "The speaker id used to generate the intermediate voice. (don't recommend changing) options: en-au  en-br  en-default  en-india  en-newest  en-us  es  fr  jp kr  zh"
     },
     "output": {
         "value": "./output",
@@ -34,7 +44,7 @@
         "help": "The input path to the pdf file to be converted to speech."
     },
     "ckpt_path": {
-        "value": "./checkpoints_v2/",
+        "value": "./checkpoints_v2",
         "type": "str",
         "help": "The path to the checkpoints from myshell."
     },

@@ -90,7 +90,8 @@ if __name__ == '__main__':
     voice = args.voice
     voice_speed = args.voice_speed
     voice_directory = args.voice_directory
-    OV_SPEAKER_ID = args.OV_SPEAKER_ID
+    OV_SPEAKER = args.OV_SPEAKER
+    OV_MODEL = args.OV_MODEL
     output = args.output
     device = args.device
     input_path = args.input
@@ -98,6 +99,7 @@ if __name__ == '__main__':
     pages = args.pages
     keep_intermediate = args.keep_intermediate
     chunk_size = args.chunk_size
+    Melo_Language = args.Melo_Language
 
     # check the input file
     input_is_pdf = input_path.endswith(".pdf")
@@ -123,14 +125,23 @@ if __name__ == '__main__':
 
     # split for every X words
     tmp_txt = tmp_txt.split(" ")
-    for i in range(0, len(tmp_txt), chunk_size):
-        chunk_words = tmp_txt[i:i+chunk_size]
+    chunk = ""
+    end_chunk = False
+    for i in range(0, len(tmp_txt)):
+        word = tmp_txt[i]
+
         # we replace fully capitalized words with the the seperated characters
-        for i, word in enumerate(chunk_words):
-            
-            if word.isupper():
-                chunk_words[i] = " ".join([c.upper() for c in word])
-        input_texts.append(" ".join(chunk_words))
+        if word.isupper():
+            word = " ".join([c.upper() for c in word])
+
+        chunk += word + " "
+        if i % chunk_size == 0 and i != 0:
+            end_chunk = True
+        
+        if (end_chunk and word.endswith(".")) or i == len(tmp_txt)-1:
+            input_texts.append(chunk)
+            chunk = ""
+            end_chunk = False
 
     # see if the output is a directory
     output_is_dir = os.path.basename(output).split(".").__len__() == 1
@@ -146,13 +157,14 @@ if __name__ == '__main__':
     tone_color_converter.load_ckpt(os.path.join(ckpt_path,'converter', 'checkpoint.pth'))
 
     # obtain the tone color of the input audio
-    target_se, audio_name = se_extractor.get_se(os.path.join(voice_directory,voice+".wav"), tone_color_converter, vad=False)
+    target_se, audio_name = se_extractor.get_se(os.path.join(voice_directory,voice+".mp3"), tone_color_converter, vad=False)
 
     from melo.api import TTS
-    model = TTS(OV_SPEAKER_ID.upper().replace("-", "_"), device=device)
-    source_se = torch.load(os.path.join(ckpt_path, 'base_speakers', 'ses', f'{OV_SPEAKER_ID.lower()}.pth'), map_location=device)
+    source_se = torch.load(os.path.join(ckpt_path, 'base_speakers', 'ses', f'{OV_MODEL}.pth'), map_location=device)
+    model = TTS(Melo_Language, device=device)
     speaker_ids = model.hps.data.spk2id
-    speaker_id = speaker_ids[OV_SPEAKER_ID]
+    print(f"Speaker IDs: {speaker_ids.keys()}")
+    speaker_id = speaker_ids[OV_SPEAKER]
 
     processed_audio_paths = []
     temp_audio_paths = []
@@ -173,9 +185,9 @@ if __name__ == '__main__':
         print(f"Converting to the target voice... {count} of {len(input_texts)-1}")
         encode_msg = "@ogelbw"
         tone_color_converter.convert(
-                    audio_src_path=temp_file_path, 
-                    src_se=source_se, 
-                    tgt_se=target_se, 
+                    audio_src_path=temp_file_path,
+                    src_se=source_se,
+                    tgt_se=target_se,
                     output_path=real_output,
                     message=encode_msg)
     
